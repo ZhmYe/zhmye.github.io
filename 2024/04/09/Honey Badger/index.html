@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>【论文阅读分享】The Honey Badger of BFT Protocols | Hexo</title>
+
+
+    <meta name="keywords" content="共识, 异步共识">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="华东师范大学区块链实验室论文阅读分享会于2023年10月6日在线下进行，硕士研究生叶哲名分享了论文The Honey Badger of BFT Protocols。该论文由伊利诺伊大学厄巴纳-香槟分校、清华大学、康奈尔大学、加利福尼亚大学伯克利分校发表在SIGSAC2016上，作者是Andrew Miller，Yu Xia，Kyle Croman，Elaine Shi和Dawn Song。 论文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文阅读分享】The Honey Badger of BFT Protocols">
+<meta property="og:url" content="http://example.com/2024/04/09/Honey%20Badger/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="华东师范大学区块链实验室论文阅读分享会于2023年10月6日在线下进行，硕士研究生叶哲名分享了论文The Honey Badger of BFT Protocols。该论文由伊利诺伊大学厄巴纳-香槟分校、清华大学、康奈尔大学、加利福尼亚大学伯克利分校发表在SIGSAC2016上，作者是Andrew Miller，Yu Xia，Kyle Croman，Elaine Shi和Dawn Song。 论文">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2024/04/09/Honey%20Badger/fig1.png">
+<meta property="og:image" content="http://example.com/2024/04/09/Honey%20Badger/fig2.png">
+<meta property="article:published_time" content="2024-04-09T02:23:56.220Z">
+<meta property="article:modified_time" content="2024-04-12T05:45:05.815Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="共识">
+<meta property="article:tag" content="异步共识">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/04/09/Honey%20Badger/fig1.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" onload="this.media='all'">
+        
+    
+
+    
+    
+
+    
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">Dase-StarChain</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/archives/" class="navbar-menu button">文章</a>
+                
+                    <a href="/categories/" class="navbar-menu button">分类</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a target="_blank" rel="noopener" href="https://github.com/ECNU-Starchain" class="navbar-menu button">Github</a>
+                
+            </div>
+        
+        
+        
+    <a href="/search/" id="btn-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg>
+    </a>
+
+
+        
+        
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">文章</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">分类</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a target="_blank" rel="noopener" href="https://github.com/ECNU-Starchain" class="dropdown-menu button">Github</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        【论文阅读分享】The Honey Badger of BFT Protocols
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2024/04/" class="post-meta__date button">2024-04-09</a>
+        
+    <span class="separate-dot"></span><a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E5%88%86%E4%BA%AB/" class="button">论文阅读分享</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+
+<article class="post content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <p>华东师范大学区块链实验室论文阅读分享会于2023年10月6日在线下进行，硕士研究生叶哲名分享了论文The Honey Badger of BFT Protocols。该论文由伊利诺伊大学厄巴纳-香槟分校、清华大学、康奈尔大学、加利福尼亚大学伯克利分校发表在SIGSAC2016上，作者是Andrew Miller，Yu Xia，Kyle Croman，Elaine Shi和Dawn Song。</p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://infoscience.epfl.ch/record/222858/files/199.pdf">https://infoscience.epfl.ch/record/222858/files/199.pdf</a></p>
+<h2 id="1-研究背景和动机"><a href="#1-研究背景和动机" class="headerlink" title="1 研究背景和动机"></a>1 研究背景和动机</h2><h3 id="1-1-网络假设"><a href="#1-1-网络假设" class="headerlink" title="1.1. 网络假设"></a>1.1. 网络假设</h3><p>在种类繁多的BFT协议中，异步BFT协议的鲁棒性最强，能够应对极端的网络环境。所谓“异步”，是指该协议是针对异步网络环境设计的。在异步网络中，攻击者可以在任何时间内以任何顺序传递消息，但最终在正确节点之间发送的消息必须被传递。由于在异步网络中，消息只保证最终能在正确节点之间传递而不保证传递的时延，无法有效地区分“消息到达慢”和“消息没有发送”之间的区别，因此在异步网络中的节点通常不使用时钟（如Raft中的timeout）作为改变自身运行状态的触发器，只根据它们接收到的消息的顺序采取行动。</p>
+<p>著名的“FLP”定理证明了，在异步网络中，即使在故障节点的数量只有一个这样最简单的情况下，理论上也不存在一定能在有限时间内结束的确定性共识算法。因此，传统的共识协议如Raft、PBFT等做出了更强的网络时间假设，以打破FLP定理所带来的限制。根据由强到弱的时间假设，我们可以把网络分为同步网络、部分同步网络和异步网络三种。</p>
+<p>在同步网络中，网络中的消息能够在一个已知的时间Δ内到达，这是一种非常理想的网络假设，实际的工程实践中很难保证这一假设成立。而在异步网络中，正如我们之前所提到的，网络只保证消息最终能到达，并没有到达时间的限制，这几乎涵盖了所有网络情况，因此针对异步网络的协议的鲁棒性最强，在极端条件下也不会丧失活性，但相对的，协议的设计也是最难的。</p>
+<p>部分同步网络就是介于同步和异步网络之间的一种网络。在部分同步网络中，在某些情况下网络可能会发生波动，发生波动时共识可能会被阻塞，但是经过可预测的时间后，最终会恢复正常的共识状态，该时间长度被称为 GST（Global Stabilization Time）。因此，部分同步网络只保证在一个 GST时间之后，消息在 Δ 时间内到达。简单来说，部分同步网络在同步状态和异步状态之间交替。随着网络技术的发展，这种假设已经能符合我们生活中遇到多绝大多数网络情况，而且设计和实现这类协议的难度不高。</p>
+<p>在部分同步网络的基础上，我们还可以进一步定义“弱同步网络”，这也是大部分现有协议所采用的网络假设。在弱同步网络中，消息的延时界限Δ是时变的，但最终不会比时间的多项式函数增长的更快。</p>
+<h3 id="1-2-弱同步网络时间假设的缺点"><a href="#1-2-弱同步网络时间假设的缺点" class="headerlink" title="1.2  弱同步网络时间假设的缺点"></a>1.2  弱同步网络时间假设的缺点</h3><p>大多数现有的拜占庭容错系统，即使是那些被称为“鲁棒的”系统，也假设弱同步的一些变化。</p>
+<p>由于在弱同步网络中，消息只保证在GST时间后，在某个界限∆之后被递送，但是∆可能是时变的甚至是协议设计者未知的，因此调整弱同步意味着随着时间的推移逐渐增加超时参数。由于在大部分协议中通常以超时事件(timeout)的形式来表示这些假设，因此一种常见的用于调整弱同步网络的做法是，每次超时将超时参数翻倍。</p>
+<p>做出较强的网络假设可以很好地避免FLP定理所带来的“不可能”的结果，同时也方便协议设计者设计协议，但是有得必有失，在这些较强的（相对于异步网络来说）网络假设下，不可避免会有一系列新的问题。</p>
+<p>首先，当预期的网络假设被违反时，弱同步协议的活性属性可能完全失效。比如，在Raft或者PBFT这样的有主共识协议中，当网络假设被违反时，很有可能出现频繁的换主情况，导致协议无法得到进展进而在这段时间内的吞吐为0。同时，正如前面我们提到的，调整弱同步网络的通常做法是，每次超时将超时参数翻倍，那么多次超时后timeout参数会被调整到一个过大的数字，即使网络状况恢复，网络从网络分区恢复极慢。</p>
+<p>其次，即使弱同步假设在实践中得到满足，弱异步协议需要非常挑剔的超时参数，超时值太长无法精准快速的感知到故障的发生，而超时值太短容易频繁的触发一些故障恢复机制。无论超时值选取的太长或太短，都会使得吞吐量受到阻碍，而选取合适的超时参数这件事本身就是非常难以定量完成的。</p>
+<p>与之相对的，异步网络的网络假设是最弱的，甚至可以说，对于网络本身，并没有什么额外的假设，因此异步共识协议的鲁棒性最强。但在Honey Badger BFT被提出之前，如何设计一种高效的异步 BFT 协议一直是学术界和工业界面临的难题。直到2016 年Honey Badger BFT被提出，人们才看到了异步BFT协议可以落地的潜力。</p>
+<h3 id="1-3-确定性与随机化"><a href="#1-3-确定性与随机化" class="headerlink" title="1.3 确定性与随机化"></a>1.3 确定性与随机化</h3><p>正如我们在1.1中所提到的，FLP定理给出了“在异步网络中，即使在故障节点的数量只有一个这样最简单的情况下，理论上也不存在一定能在有限时间内结束的确定性共识算法”。那么如果我们不像Raft、PBFT那样对网络假设进行增强，我们应该如何打破FLP定理所描述的“不可能”的结果呢？事实上，FLP定理只是证明了，在异步网络中，针对任何一种确定性的共识协议，我们都可以构造出一条路径（消息到达的顺序），使得在任何初始条件下，协议如果延着这条我们构造的路径运行，那么协议将永远无法达成共识。我们可以从另外一个角度放宽对这个结果的容忍度，虽然我们无法从根本上避免这条路径的产生，但我们可以让这条路径出现的概率无限趋近于0，换句话说，我们可以容忍一个异步共识协议以概率1完成共识（而不是一定）。而要想达成“以概率1”，显然确定性共识协议是无法保证的，因此我们引入了“随机化”的共识协议。</p>
+<p>我们首先给出“确定性”和“随机化”共识协议的简单定义。</p>
+<p>所谓“确定性”共识协议，即协议不采取随机步骤;执行取决于初始值、故障节点的行为和调度器。在“确定性”共识协议中，所有正确的过程都是通过r轮来决定的，其中r是先验已知的的常数。</p>
+<p>而与之相对的，“随机化”共识协议中的一些步骤是随机的，并且只要求最终达成共识，换句话说，当r趋近于无穷大时，经过r轮，一个正确的节点没有做出决定的概率趋近于0。虽然协议达成共识所需的轮数理论上是没有上限的，但协议不终止的概率为0。</p>
+<p>那么我们应该怎么在共识协议的过程中加入“随机化”呢？简单来说，既然在异步网络中会出现无法达成共识的情况，也就是针对同一件事，可能会出现有一部分节点表示同意，另一部分节点表示不同意，此时无法达成共识。解决这种分歧的方案很简单，当一个节点发现针对某一件事网络中的所有节点有分歧时，它通过“抛硬币”的方式来做决策。当然这样简单抛一次硬币可能还是无法使得所有节点做出同样的决策，如果一次不够，那就多抛几次，最终一定有那么一次大家做出了同样的决策。当然这是一种抽象的简单的说法，具体协议的运行方式，我们会在下文深入分析。</p>
+<p>一种常用的随机化的方式是，采用Common Coin。Honey Badger BFT采用的Common Coin会为节点提供了一个表示为random()的原语，由正确的节点对random()的第r次调用将比特𝑏_𝑟返回给它, 𝑏_𝑟=0或1，其中𝑃(𝑏_𝑟=1)=𝑃(𝑏_𝑟=0)=1/2。节点需要合作来计算每个比特𝑏_𝑟的值，防止拜占庭节点提前计算并利用这些值阻止协议终止，并且在给定轮中计算的值独立于其在其它轮中计算的值。具体Common Coin的运作方式，我们不做过多的讨论。有兴趣的读者可以参考原论文，后续我们在描述中将Common Coin当作一个单纯的工具直接使用。</p>
+<h2 id="2-问题定义"><a href="#2-问题定义" class="headerlink" title="2 问题定义"></a>2 问题定义</h2><p>   我们首先简单描述下Honey Badger BFT在描述问题前所做的假设。</p>
+<p>​    首先，网络中有N个节点，交易会被发送给所有节点，节点接受交易作为输入，目标是就这些交易的排序达成一致。在本文中，为了简化描述，交易内容就是一些简单的字符串，一旦交易被节点输出，就视为已经提交。</p>
+<p>​    其次，Honey Badger BFT所针对的网络是纯异步网络，假设每对节点都通过一个可靠的经过身份验证的点对点通道连接，该通道不会丢弃消息并且在正确节点之间发送的每个消息最终都必须被传递。在异步网络中，消息时延无界，因此本文假设节点具有无界缓冲区，能够处理它们接收到的所有消息。</p>
+<p>​    另外，Honey Badger BFT是一种BFT协议，但其所针对的是“静态拜占庭容错”。所谓“静态拜占庭容错”，我们可以从两个部分来理解。首先“拜占庭容错”(Byzantine Fault)，这是一个很经典的容错问题，不同与Raft、Paxos所针对的故障容错(Crash Fault)，拜占庭容错允许节点作恶（如恶意不发消息），而不仅仅允许节点崩溃出错。在Honey Badger BFT中，这样的故障节点（包括恶意节点，以下统一写作故障节点）总数不超过f个，并且满足N≥3f+1。而所谓“静态”，是指所有故障和策略在协议一开始就确定，不会根据后续协议运行产生的结果和信息改变。</p>
+<p>​    最后，Honey Badger还假设节点可以与可信第三方交互来建立公钥和私钥分片。在真实的部署中，如果实际受信方不可用，则可以替代地使用分布式密钥生成协议。</p>
+<p>​    在此基础上，我们简单给出Honey Badger所要解决的问题定义。事实上，它就是要构建一个异步网络下的原子广播(Atomic Broadcast)，使得以下属性在异步网络条件下都以概率1满足。</p>
+<ul>
+<li><strong>Agreement</strong>：如果任何正确节点输出交易tx，则每个正确节点输出tx</li>
+<li><strong>Total Order</strong>：如果一个正确的节点输出交易序列{$t_i$},另一个正确节点输出{$t_i’$},则对于$\forall i,t_i=t_i’$</li>
+<li><strong>Censorship Resilience：</strong>如果交易tx被输入到N-f个正确节点，则它最终被每个正确节点输出，这可以防止对手阻止单个交易被提交</li>
+</ul>
+<h2 id="3方案设计"><a href="#3方案设计" class="headerlink" title="3方案设计"></a>3方案设计</h2><h3 id="3-1-概览"><a href="#3-1-概览" class="headerlink" title="3.1 概览"></a>3.1 概览</h3><p>在Honey Badger BFT中，协议的运行单位称为epoch，其中在每个epoch之后，一批新的交易被附加到提交的日志。每个epoch会包含r轮，r是个不确定的数。图1展示了Honey Badger BFT中每一个正确节点在每一个epoch中的行为流程。</p>
+<p><img src="/2024/04/09/Honey%20Badger/fig1.png" alt="fig1"></p>
+<center>图1.Honey Badger BFT协议流程</center>
+
+<p>首先，节点会从本地交易缓存中的前B个中取出B/N笔交易作为当前epoch的建议值，然后对取出的交易进行加密，并将这些交易放入ACS模块(具体见后文描述)中进行共识，每个节点都会取出B/N笔交易并放入ACS模块中，所以最理想的状态下放入ACS中的交易总数为B，也就是最终区块中交易的个数。但每个节点的交易缓存中的交易会有重复，也就是说所有节点取出的这B笔交易中会有重复交易的存在，并且考虑到还有f个恶意节点的存在，因此最终实际在ACS模块中达成共识的交易可能无法达成理论值，这也是后续我们要分析和讨论的问题之一。在完成ACS共识后，所有节点得到了一批共识完成的交易，后续对这些交易进行解密、排序，最终得到这一epoch的区块，然后本地将已经达成共识的交易从交易缓存中删除，如此循环。</p>
+<p>在整个协议流程中，节点并行地、独立地从本地交易缓存中取出交易并转发给其它节点其实类似无主共识中多个instance同时运作，而后续对共识交易集合的处理方式其实和传统共识协议也基本相同，因此，Honey Badger BFT协议和传统共识协议最大的不同点在于“ACS共识”，这也是我们后续所要重点讨论的部分。</p>
+<h3 id="3-2-异步公共子集-ACS"><a href="#3-2-异步公共子集-ACS" class="headerlink" title="3.2 异步公共子集(ACS)"></a>3.2 异步公共子集(ACS)</h3><p>异步公共子集，顾名思义，就是在异步网络条件下，所有节点得到一个公共的一致的“子集”。那么一个很自然的问题就是，既然有“子集”，那么一定会有一个包含这个子集的集合，这样才会有“子集”的概念。我们再联想上述每个节点分别提出一批交易作为自己的建议值，将这些交易的并集看成一个集合A，最终我们要让所有节点输出一个集合B，满足B是A的子集，这就是异步公共子集的一个简单理解。</p>
+<p>具体来说，一个ACS协议必须满足如下属性。</p>
+<ul>
+<li>如果一个正确的节点输出一个集合v，那么$|v|\ge N-f$且v包含至少N-2f个正确节点的输入</li>
+<li>如果正确的节点输出v，则每个节点输出v</li>
+<li>如果所有正确节点接收到一个输入，那么所有正确节点都会产生一个输出</li>
+</ul>
+<p>我们结合3.1中描述的Honey Badger BFT流程来看，每个节点都会取出B/N个交易作为自己当前epoch的建议值，这就是每个正确节点的输入，而输出则是这些交易并集的一个子集v。但为什么这个v的大小只需满足包含至少N-f个输入呢？这是因为网络中有f个恶意节点，它们很有可能恶意不发送自己的建议值，因此网络中此时只有N-f个输入，所以我们在构建ACS协议时只能保证最后的输出包含至少N-f个输入，而更进一步来看，我们最终保证的这N-f个输入里，又不可避免的可能会混入f个恶意节点的输入，因此我们只能保证v包含至少N-2f个正确节点的输入。</p>
+<p>值得一提的是，ACS并不是由本文最先提出的，但在在HB-BFT之前的一些工作中对于ACS的实现会出现开销过大或复杂度过高的问题，难以在工程中实现或使用。因此本文最大的贡献点就是通过将ACS解耦成可靠广播和二值共识两个部分，设计了一种高效构建ACS实例的方式。接下来我们将对可靠广播(RBC)和二值共识(ABA)进行简单的叙述。</p>
+<h3 id="3-3-可靠广播-RBC"><a href="#3-3-可靠广播-RBC" class="headerlink" title="3.3 可靠广播(RBC)"></a>3.3 可靠广播(RBC)</h3><p>​    顾名思义，可靠广播(RBC)实现了一种“可靠”的广播，具体来说，如果发起广播的节点p是一个正确的节点，那么所有的正确的节点都会同意(accept)来自p的广播内容。反之，如果p是恶意的节点，那么所有正确的节点要么都同意，要么没有一个同意来自p的广播内容。</p>
+<p>   最早的经典可靠广播协议由Bracha提出(下面称作Bracha’s RBC)，协议中涵盖了三种不同的消息类型Initial、Echo、Ready，并定义了两个原语Broadcast和Accept，这可以类比传统的Send和Receive原语。</p>
+<p>​    Bracha’s RBC可以简单的分为三个阶段，在后两个阶段会经历一次all-to-all的广播，因此通信复杂度为$𝑂(𝑁^2 |𝑣|)$，其中|v|是消息大小。2005年，Cachin等人提出一种基于纠删码的RBC的实现，将通信复杂度降到了$𝑂(𝑁|𝑣|+λ𝑁^2 𝑙𝑜𝑔𝑁)$，而当$|𝑣|≫λ𝑁𝑙𝑜𝑔𝑁$时，通信复杂度即$𝑂(𝑁|𝑣|)$，等价于发送方向节点一对一直接发送消息的复杂度，也就是说渐进于理论最优。Honey Badger BFT采用了这种改进的RBC协议。</p>
+<p>​    通过RBC协议，我们可以将原本复杂的共识问题转化为成简单的二值共识问题。既然可以保证所有正确节点最终都能收到一样的内容，我们只需要将共识的问题简化为“同意”或者“不同意”收到的内容。但问题在于，由于在同一时间内会有多个RBC实例在运行，并且由于异步网络的特性，我们无法保证不同节点收到内容的顺序，我们只能保证最终所有节点一定会收到一样的内容。因此，对于收到的内容，节点是否要“同意”接受，是我们接下来要重点讨论的问题，也就是二值共识(ABA)所要研究的问题。</p>
+<h3 id="3-4-二值共识-ABA"><a href="#3-4-二值共识-ABA" class="headerlink" title="3.4 二值共识(ABA)"></a>3.4 二值共识(ABA)</h3><p>​    所谓二值共识，就是对于“二值”的共识。“二值”就是二进制值0或者1，我们可以把二值共识抽象为一个投票过程，所有节点针对某一件事进行投票，0表示不同意，1表示同意，最终经过二值共识后，所有正确的节点针对这件事的同意与否达成一致。</p>
+<p>​    Honey Badger BFT所采用的二值共识是一种针对异步网络条件下的拜占庭容错二值共识协议(ABA)，满足N≥3f+1的拜占庭容错条件。一个ABA协议需要满足如下性质。</p>
+<ul>
+<li><p>一个被decide的值由正确的节点提出</p>
+</li>
+<li><p>没有两个正确的节点decide不同的值</p>
+</li>
+<li><p>一个正确的节点最多decide一次</p>
+</li>
+<li><p>所有正确的节点最终都会decide某个值</p>
+</li>
+</ul>
+<p>在ABA协议中，首先，每个节点都会向ABA实例输入一个值0/1，并将这个值作为当前自己对最终所有节点决定的“估计值”，然后将这个值广播给其他所有节点，这个广播的过程是通过BV_Broadcast完成的，节点会将收到的满足条件的值存入自己本地的变量bin_values中，在这个过程中会过滤掉仅由恶意节点广播的值(比如所有节点都同意即广播1，恶意节点不同意即输入0，那么在bin_values中一定只有1)。这个过程可以抽象成是一轮投票过程，节点会收集其他人的投票结果。</p>
+<p>然后，当节点本地的bin_values不为空时，说明节点确认本地收集到了至少一个由正确节点发出的投票结果(同意或不同意)，那么它会进入下一个阶段。它会从本地的收集到的投票结果bin_values中随机取出一个作为自己当前轮次的“决定”发送给其它所有节点(AUX消息)，然后等待存在一个由n-f条来自不同节点的AUX消息中包含的值所组成的集合values满足values包含于bin_values，如果该条件成立，则节点进入下一阶段。这个过程可以理解为是第二次投票，从本地收集到的第一轮投票结果中，选出一个作为自己当前的决定并广播，然后收集其他人的决定，等待n-t个决定，得到全局决定分布的一个“局部”。这个“局部”可能会呈现“一致”或者“不一致”的形式，这也是在下一个阶段进行讨论的条件。</p>
+<p>在第三个阶段，节点首先会获取当前轮次的common coin(记为s)。如果上述values的大小是2，也就是说values={0,1}，那么从节点的局部视角来看，大家对于这件事的投票结果既有同意又有不同意，无法达成一致，此时节点会将获取到的s作为下一轮的估计值，正如我们在1.3中所描述的，如果无法达成一致，就通过抛硬币的方式来决策。相对的，如果values的大小是1，也就是values={v}，其中v是0或者1，那么从节点的局部视角来看，大家对于这件事的投票结果是一致的，但是这个结果是局部的，节点到底是否应该将这个决定作为自己最终的决定呢？换句话说，节点应该通过什么方式来判断自己是否应该做出最终的决定呢？答案很简单，还是通过抛硬币的方式，如果s=v，那么节点会将这个决定作为自己最终的决定，反之，节点不会将这个决定作为自己最终的决定但它会将这个决定作为下一轮循环的估计值。这样的做法会带来一个问题，如何保证每个节点通过抛硬币所作出的最终决定是一致的呢？这会涉及到同一轮内做出最终决定(decide)的节点和不同轮做出最终决定的节点所决定的值是否一致。在ABA原论文中通过严谨的证明证明了没有两个正确的节点decide不同的值并且它们decide的值是由正确节点提出的。</p>
+<p>除了保证决定结果的一致性之外，还需要考虑协议是否能够以概率1终止，同样，在ABA原论文中，严谨地证明了协议的中止性质，并且还给出了协议运行轮数的期望值为4。</p>
+<h3 id="3-5-更高效地构建ACS实例"><a href="#3-5-更高效地构建ACS实例" class="headerlink" title="3.5 更高效地构建ACS实例"></a>3.5 更高效地构建ACS实例</h3><p>​    通过将ACS解耦成RBC和ABA两个部分的方式，本文给出了一种高效构建ACS实例的方法，如图2所示。</p>
+<p>​    首先，每个节点从自己本地取出B/N笔交易作为自己当前epoch的建议值，然后通过RBC广播给其他所有节点。每个节点都会维护N个并行的ABA实例，当节点收到来自某个节点的RBC广播后，如果它还没有向对应的ABA实例输入过0/1，那么向该ABA实例输入1。</p>
+<p>​    此时，我们需要考虑一个问题，因为f个恶意节点的存在，节点所维护的N个ABA实例对应f个恶意节点的那f个可能永远无法完成，甚至有可能根本不开始，因此节点不可能等待N个RBC输入1，它需要提前向剩下的ABA实例输入0来使得所有ABA实例都可以完成。一种简单的做法是，当节点向N-f个ABA实例输入了1后就对剩下的ABA实例输入0，但是由于每个节点观察到输入的顺序不同，因此它们对不同ABA的输入不同，这种做法很有可能会导致最终没有一个ABA实例输出1，这就无法保证最终的共识交易集合包含N-f个输入。对此，本文提出了一种更有效且简单的方法，那就是当节点收到来自N-f个ABA实例的输出1后，再向剩下的ABA实例输入0，也就是说，当节点确认最后的输出一定包含N-f个输入后，才会向其它的ABA实例输入0。</p>
+<p><img src="/2024/04/09/Honey%20Badger/fig2.png" alt="fig2"></p>
+<p>​                                   <center>图2.Honey Badger BFT</center></p>
+<p>​    另外，正如我们在3.1中描述的那样，每个节点取出的B/N笔交易可能会有重复，并且最终输出的共识交易集合中只能保证包含至少N-2f个正确节点的输入，一种最坏的情况就是，所有正确节点取出的交易都是一样的，也就是最后有效的交易只有B/N笔，这个数字会受到N的影响，如果N很大的话，最终能在一个epoch里被提交的交易数很少。这种情况是不能避免的，但是我们能否从期望层面给出一个每个epoch能提交的交易数呢？本文通过巧妙的概率证明，证明了Honey Badger BFT每个epoch能提交的交易数的期望值的下限是B/4。</p>
+<p>​    最后，让我们回过头来看最开始的问题定义，我们需要实现一个异步网络下的原子广播，满足如下性质：</p>
+<ul>
+<li><p><strong>Agreement</strong>：如果任何正确节点输出交易tx，则每个正确节点输出tx</p>
+</li>
+<li><p><strong>Total Order</strong>：如果一个正确的节点输出交易序列{$t_i$},另一个正确节点输出{$t_i’$},则对于$\forall i,t_i=t_i’$</p>
+</li>
+<li><p><strong>Censorship Resilience：</strong>如果交易tx被输入到N-f个正确节点，则它最终被每个正确节点输出，这可以防止对手阻止单个交易被提交 </p>
+</li>
+</ul>
+<p>其中ACS共识已经保证了所有节点的输出内容一致，后续对于输出交易的排序也已保证了正确节点输出交易序列是一致的。那么还有最后一条还没有得到显式的保证。因此，在论文的最后，本文对Honey Badger BFT的审查弹性进行了证明，证明了一笔交易提交所需要的epoch数为O(T/B+λ)，其中T是“积压”的大小，即在tx前输入到任何正确节点的交易总数与已提交的交易数之间的差值。</p>
+<h2 id="4-问题与优化"><a href="#4-问题与优化" class="headerlink" title="4 问题与优化"></a>4 问题与优化</h2><p>虽然Honey Badger BFT通过一系列的方案，解决了传统异步共识协议设计复杂、通信复杂度高的问题，使得异步拜占庭容错正式迈入可实用领域。但是不可否认的是，Honey Badger BFT还是留有许多的问题有待解决。下面简单列举其中几个问题。</p>
+<p>首先，随着网络规模，在Honey Badger BFT协议中，首先到达瓶颈的是 CPU，而不是带宽，这是因为在每轮共识中，每个节点都要运行 N个ABA 的实例，而每个ABA 的实例都要校验N^2个阈值签名，随着节点数量的上升，计算复杂度会变得非常高。后续Dumbo协议正是针对这一问题进行了更进一步的优化。</p>
+<p>其次，在Honey Badger BFT的ABA阶段使用了Common Coin作为随机化手段来打破FLP定理的限制，解决节点无法对投票结果达成一致的问题，但是Common Coin本身的随机性以及实现机制导致了很大的轮数和通信开销，并且在所有正确节点的投票结果都一致也就是说正确节点之间不需要通过抛硬币来达成一致的时候，Common Coin带来的开销显得十分浪费。因此，是否能够设计一种方案，使得在ABA阶段能够在一些特殊初始条件下能够直接跳过Common Coin部分直接使得正确节点快速达成共识，甚至直接在RBC阶段就直接使得正确节点快速的跳过ABA阶段达成共识？这正是最新在SOSP上发表的论文“Flexible Advancement in Asynchronous BFT Consensus”其中一个设计思路。</p>
+<p>另外，Honey Badger BFT的每一个epoch都要求所有节点提出B/N个节点，而事实上，在真实的网络场景中，不同节点的负载情况是不同的，在同一时刻，可能一部分节点有许多的交易有待提交，而另一部分节点甚至没有新的交易，这就会导致“快”的节点需要等待“慢”的节点才能开始进行后续的过程，这也正是“Flexible Advancement in Asynchronous BFT Consensus”的另一重要思路，设计了一种自适应的异步共识协议，使得在不同的网络负载下，都能很快的使得协议得到进展，“快”的节点提出的交易可以更快的得到处理，而不需要等待“慢”的节点。</p>
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5 总结"></a>5 总结</h2><p>异步拜占庭容错协议由于其鲁棒性，非常适用于节点数量相对较大、网络环境不可预测的场景。本文介绍的Honey Badger BFT提出了一种高效构建ACS实例的方法，模块化地设计协议，减少了通信复杂度，但在许多方面还有可以优化的空间。</p>
+<p>​    </p>
+<p>作者：叶哲名，华东师范大学区块链实验室硕士研究生</p>
+
+    </div>
+     
+    <div class="post-footer__meta"><p>updated at 2024-04-12</p></div> 
+    <div class="post-entry__tags"><a href="/tags/%E5%85%B1%E8%AF%86/" class="post-tags__link button"># 共识</a><a href="/tags/%E5%BC%82%E6%AD%A5%E5%85%B1%E8%AF%86/" class="post-tags__link button"># 异步共识</a></div> 
+</article>
+
+
+
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2024 <a href="/">Hexo</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
+</html>
