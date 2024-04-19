@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>【实验报告】个人博客搭建总结报告 | Hexo</title>
+
+
+    <meta name="keywords" content="实验报告">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="一、博客主题及其选取原因​    博客主题这里分为两方面介绍，一方面是网站功能主题，一方面是网站布局代码使用的主题(theme)。     ​    首先说明布局主题。本次博客网站选取了card主题。选取的原因也比较简单，主要是因为个人比较倾向于比较简洁的页面。在相关文档页面可以得到相关的使用方式，在部署到本地代码后，对其中的一些功能进行了使用。 ​    其次是网站功能主题，本次制作的博客内容主">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【实验报告】个人博客搭建总结报告">
+<meta property="og:url" content="http://example.com/2024/04/19/report/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、博客主题及其选取原因​    博客主题这里分为两方面介绍，一方面是网站功能主题，一方面是网站布局代码使用的主题(theme)。     ​    首先说明布局主题。本次博客网站选取了card主题。选取的原因也比较简单，主要是因为个人比较倾向于比较简洁的页面。在相关文档页面可以得到相关的使用方式，在部署到本地代码后，对其中的一些功能进行了使用。 ​    其次是网站功能主题，本次制作的博客内容主">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2024/04/19/report/fig1.png">
+<meta property="og:image" content="http://example.com/2024/04/19/report/fig2.png">
+<meta property="og:image" content="http://example.com/2024/04/19/report/fig3.png">
+<meta property="og:image" content="http://example.com/2024/04/19/report/Users/Lenovo/AppData/Roaming/Typora/typora-user-images/image-20240419124149290.png">
+<meta property="og:image" content="http://example.com/2024/04/19/report/fig4.png">
+<meta property="og:image" content="http://example.com/2024/04/19/report/fig5.png">
+<meta property="article:published_time" content="2024-04-19T05:14:59.000Z">
+<meta property="article:modified_time" content="2024-04-19T05:17:46.816Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="实验报告">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/04/19/report/fig1.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">ZhmYe&#39;s</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/archives/" class="navbar-menu button">文章</a>
+                
+                    <a href="/categories/" class="navbar-menu button">分类</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a target="_blank" rel="noopener" href="https://github.com/ZhmYe" class="navbar-menu button">Github</a>
+                
+            </div>
+        
+        
+        
+    <a href="/search/" id="btn-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg>
+    </a>
+
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">文章</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">分类</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a target="_blank" rel="noopener" href="https://github.com/ZhmYe" class="dropdown-menu button">Github</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        【实验报告】个人博客搭建总结报告
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2024/04/" class="post-meta__date button">2024-04-19</a>
+        
+    <span class="separate-dot"></span><a href="/categories/%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/" class="button">实践笔记</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+
+<article class="post content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <h2 id="一、博客主题及其选取原因"><a href="#一、博客主题及其选取原因" class="headerlink" title="一、博客主题及其选取原因"></a>一、博客主题及其选取原因</h2><p>​    博客主题这里分为两方面介绍，一方面是网站功能主题，一方面是网站布局代码使用的主题(theme)。    </p>
+<p>​    首先说明布局主题。本次博客网站选取了card主题。选取的原因也比较简单，主要是因为个人比较倾向于比较简洁的页面。在相关文档页面可以得到相关的使用方式，在部署到本地代码后，对其中的一些功能进行了使用。</p>
+<p>​    其次是网站功能主题，本次制作的博客内容主题是个人的一些学习笔记、论文分享，也比较契合博客本身的主旨。其中，学习笔记来源于平时在学习一些新的研究内容的时候会习惯性的以markdown的形式将一些关键内容记录下来。论文分享的主要来源则是实验室要求大家按序每周一人在组会分享论文，并且在汇报完后在实验室公众号上发表相关读书笔记。</p>
+<h2 id="二、博客页面布局及其设计思路"><a href="#二、博客页面布局及其设计思路" class="headerlink" title="二、博客页面布局及其设计思路"></a>二、博客页面布局及其设计思路</h2><p>​    博客主要分为以下页面</p>
+<ul>
+<li><p>主页</p>
+<p><img src="/2024/04/19/report/fig1.png" alt="image-20240419123733673"></p>
+</li>
+</ul>
+<p>​    主页内容比较简单，主要就是以卡片形式展现了发在博客上的各种文章，并展示了文章的一些关键信息，包括题目，标签，分类等。卡片的主题展现方式非常简洁，并且和目前很多推送方式使用的微信公众号的UI形式类似。</p>
+<ul>
+<li><p>文章页面（Achive）</p>
+<p><img src="/2024/04/19/report/fig2.png" alt="image-20240419123944904"></p>
+</li>
+</ul>
+<p>​    文章页面以更清晰的时间轴的形式展现了发布在博客上的文章。</p>
+<ul>
+<li><p>分类页面</p>
+<p><img src="/2024/04/19/report/fig3.png" alt="image-20240419124031085"></p>
+</li>
+</ul>
+<p>​    分类页面中根据给不同文章赋予的”categories”内容将文章归类于不同的分类，并在该页面进行分类的展示，同时给出了不同分类的文章个数，点击相关分类后可以得到分类中的所有文章，方便用户根据自己感兴趣的分类查看所有文章。</p>
+<p><img src="/2024/04/19/report/Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20240419124149290.png" alt="image-20240419124149290"></p>
+<ul>
+<li><p>标签页面</p>
+<p><img src="/2024/04/19/report/fig4.png" alt="image-20240419124345331"></p>
+</li>
+</ul>
+<p>​    标签页面和分类页面类似，根据给不同文章赋予的“tags”属性将文章归类于不同的标签。功能与分类页面类似，只是分类页面更侧重于文章发表的目的或原因，而标签页面侧重于文章本身的内容指向。</p>
+<ul>
+<li><p>Github</p>
+<p>Github页面直接链接向本人的github页面。这里不作额外展示</p>
+</li>
+<li><p>搜索</p>
+<p><img src="/2024/04/19/report/fig5.png" alt="image-20240419124527856"></p>
+</li>
+</ul>
+<p>​    </p>
+<p>​    搜索页面主要基于card主题提供的搜索功能，主要用于在该页面进行关键词搜索以得到相关的文章。</p>
+<h2 id="三、博客搭建过程"><a href="#三、博客搭建过程" class="headerlink" title="三、博客搭建过程"></a>三、博客搭建过程</h2><ul>
+<li><p>框架选择</p>
+<ul>
+<li>hexo</li>
+</ul>
+</li>
+<li><p>主题选择</p>
+<ul>
+<li>card（<a target="_blank" rel="noopener" href="https://theme-cards.ichr.me/）">https://theme-cards.ichr.me/）</a></li>
+</ul>
+</li>
+<li><p>搭建过程</p>
+<ul>
+<li><p>首先在npm中下载安装hexo框架，然后根据主题官方文档将相关主题下载到了hexo框架的theme文件夹下并做了相应的调整</p>
+</li>
+<li><p>通过<code>hexo new [文章名称]</code>即可新建一个文章</p>
+</li>
+<li><p>在每个文章的对应.md文件中添加<code>tags</code>和<code>categories</code>用于构建分类和标签页面</p>
+</li>
+<li><p>修改主题文件夹下的_config.yml文件以修改导航栏</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># 顶部导航栏设置</span><br><span class="line">navbar: </span><br><span class="line"></span><br><span class="line">  # 左侧名称显示</span><br><span class="line">  sitename: ZhmYe&#x27;s</span><br><span class="line">  </span><br><span class="line">  # 右侧站内导航链接</span><br><span class="line">  menu: </span><br><span class="line">    - name: 首页</span><br><span class="line">      url: /</span><br><span class="line">    - name: 文章</span><br><span class="line">      url: /archives/</span><br><span class="line">    - name: 分类</span><br><span class="line">      url: /categories/</span><br><span class="line">    - name: 标签</span><br><span class="line">      url: /tags/</span><br><span class="line">    - name: Github</span><br><span class="line">      url: https://github.com/ZhmYe</span><br><span class="line"></span><br><span class="line">  # 导航栏永远显示在屏幕顶端</span><br><span class="line">  # 仅当屏幕宽度不小于 1080 px 时生效</span><br><span class="line">  sticky: false</span><br><span class="line">  </span><br><span class="line"> # 这里还包括后续启用search功能</span><br><span class="line"> search:</span><br><span class="line">  enable: true</span><br><span class="line">  path: search.json</span><br><span class="line">  field: All  # Page | Post | All</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="四、问题与总结"><a href="#四、问题与总结" class="headerlink" title="四、问题与总结"></a>四、问题与总结</h2><p>​    实验过程整体比较顺利，参考相关的资料可以很快完成整个博客的搭建，主要遇到了如下两个问题</p>
+<ul>
+<li><p>首先在md中的图片文件在网页上无法正常显示，后续通过安装<code>hexo-asset-img</code>并对图片存放位置与路径做了相应的修改，成功解决</p>
+</li>
+<li><p>在md中的latex公式无法正常显示，后续通过对配置文件中mathjax部分的修改，并参考相关资料对相关js源码做了部分小改动（修改了一些源），成功解决</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">  # MathJax</span><br><span class="line">  # https://www.mathjax.org/</span><br><span class="line">  # Version: 3</span><br><span class="line">  mathjax: </span><br><span class="line">    enable: true</span><br><span class="line"># 对源码源的修改这里不展示</span><br></pre></td></tr></table></figure>
+<p>通过这次实验，完成了搭建个人博客的实践，对一些工具框架如hexo等有了深入的了解和使用。</p>
+</li>
+</ul>
+
+    </div>
+     
+    <div class="post-footer__meta"><p>updated at 2024-04-19</p></div> 
+    <div class="post-entry__tags"><a href="/tags/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" class="post-tags__link button"># 实验报告</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2024/04/19/sumcheck/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            【学习笔记】Sumcheck协议
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2024 <a href="/">Hexo</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
+</html>

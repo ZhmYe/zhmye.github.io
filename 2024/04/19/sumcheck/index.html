@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>【学习笔记】Sumcheck协议 | Hexo</title>
+
+
+    <meta name="keywords" content="零知识证明, sumcheck, 交互式证明">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="一、Sumcheck 需要计算的结果H $H&#x3D;\sum_{b_1\in\{0,1\}}\sum_{b_2\in\{0,1\}}…\sum_{b_v\in\{0,1\}}g(b_1,…,b_v)$  验证者V，证明者P  V具有多项式时间的计算能力，但是不具备指数级的计算能力，上述H计算需要$2^v$次计算，V无法完成 假设P具有无限的计算能力，可以完成上述计算 V委托P对H进行计算，但V并不信任P">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【学习笔记】Sumcheck协议">
+<meta property="og:url" content="http://example.com/2024/04/19/sumcheck/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、Sumcheck 需要计算的结果H $H&#x3D;\sum_{b_1\in\{0,1\}}\sum_{b_2\in\{0,1\}}…\sum_{b_v\in\{0,1\}}g(b_1,…,b_v)$  验证者V，证明者P  V具有多项式时间的计算能力，但是不具备指数级的计算能力，上述H计算需要$2^v$次计算，V无法完成 假设P具有无限的计算能力，可以完成上述计算 V委托P对H进行计算，但V并不信任P">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-04-19T05:04:23.000Z">
+<meta property="article:modified_time" content="2024-04-19T05:16:58.239Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="零知识证明">
+<meta property="article:tag" content="sumcheck">
+<meta property="article:tag" content="交互式证明">
+<meta name="twitter:card" content="summary_large_image">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">ZhmYe&#39;s</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首页</a>
+                
+                    <a href="/archives/" class="navbar-menu button">文章</a>
+                
+                    <a href="/categories/" class="navbar-menu button">分类</a>
+                
+                    <a href="/tags/" class="navbar-menu button">标签</a>
+                
+                    <a target="_blank" rel="noopener" href="https://github.com/ZhmYe" class="navbar-menu button">Github</a>
+                
+            </div>
+        
+        
+        
+    <a href="/search/" id="btn-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg>
+    </a>
+
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">文章</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">分类</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a target="_blank" rel="noopener" href="https://github.com/ZhmYe" class="dropdown-menu button">Github</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        【学习笔记】Sumcheck协议
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2024/04/" class="post-meta__date button">2024-04-19</a>
+        
+    <span class="separate-dot"></span><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="button">学习笔记</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+
+<article class="post content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <h2 id="一、Sumcheck"><a href="#一、Sumcheck" class="headerlink" title="一、Sumcheck"></a>一、Sumcheck</h2><ul>
+<li><p>需要计算的结果<code>H</code></p>
+<p>$H=\sum_{b_1\in\{0,1\}}\sum_{b_2\in\{0,1\}}…\sum_{b_v\in\{0,1\}}g(b_1,…,b_v)$</p>
+</li>
+<li><p>验证者V，证明者P</p>
+<ul>
+<li>V具有多项式时间的计算能力，但是不具备指数级的计算能力，上述H计算需要$2^v$次计算，V无法完成</li>
+<li>假设P具有无限的计算能力，可以完成上述计算<ul>
+<li>V委托P对H进行计算，但V并不信任P，需要P对其计算结果进行证明</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Sumcheck协议</p>
+<ul>
+<li><p>一个v轮的验证协议</p>
+</li>
+<li><p>首先，P向V发送$H$，并声称</p>
+<p>$H=\sum_{b_1\in\{0,1\}}\sum_{b_2\in\{0,1\}}…\sum_{b_v\in\{0,1\}}g(b_1,…,b_v)$</p>
+</li>
+<li><p>在第1轮，P向V发送一个多项式$g_1(X_1)=\sum_{(x_2,…,x_v)\in\{0,1\}^{v-1}}g(X_1,x_2,…,x_v)$</p>
+<ul>
+<li><p>记一个多项式的最高次数为$d$，包括常数项它一共会有$d+1$个系数</p>
+<ul>
+<li>发送一个多项式的方式可以是<ol>
+<li>发送它的$d+1$个系数</li>
+<li>发送$d+1$个不同的点值对，V可以通过拉格朗日插值法还原出多项式（一个次数为$d$的抛物线可以由$d+1$个点确定）</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>V验证$H=g_1(0)+g_1(1)$，如果不是则拒绝P的证明</p>
+</li>
+<li>V检验$g_1$的最高次数是否是$g$中$x_1$的最高次数，如果不是则拒绝P的证明</li>
+</ul>
+</li>
+<li><p>在第$j&gt;1$轮，V向P发送一个随机的值$r_{j-1}$</p>
+<ul>
+<li>P向V发送多项式$g_j(X_j)=\sum_{(x_{j+1},…,x_{v})}g(r_1,…,r_{j-1},X_j,x_{j+1},…,x_v)$</li>
+<li>V验证$g_{j-1}(r_{j-1})=g_j(0)+g_j(1)$,如果不是则拒绝P的证明</li>
+<li>V检验$g_j$的最高次数是否是$g$中$x_j$的最高次数，如果不是则拒绝P的证明</li>
+</ul>
+</li>
+<li><p>在第v轮之后，V选择一个随机值$r_v$并计算$g(r_1,…,r_v)$</p>
+<ul>
+<li>V验证$g(r_1,…,r_v)=g_v(v_r)$，如果不是则拒绝P的证明</li>
+</ul>
+</li>
+<li><p>如果V通过上述验证，则接受P的$H$</p>
+</li>
+</ul>
+</li>
+<li><p>概率</p>
+<ul>
+<li><p>在第v轮之后验证的$g(r_1,…,r_v)$是真实的可以确定的与V本地已知的$g$相关的结果，在$r_1,…,r_{v-1}$给出的前提下，P要给出一个错误的$g_v$使得$g_v(r_v)=g(r_1,r_2,…,r_v)$,相当于是找到一个多项式与真实的多项式$h_v$(原本的$g$对前$v-1$个变量赋值后)恰好相交于$r_v$，而$h_v$是一个最高次数不超过$d$的多项式，因此不同的$h_v$和$g_v$之间最多有$d$个交点，而$r_v$又是随机选择的，也就是P构造出一个假的多项式使得其在$r_v$上的值正好等于$h_v(r_v)$的概率不超过$\frac{d}{|F|}$，也就是从所有点里正好拿到了那$d$个交点的概率。</p>
+</li>
+<li><p>如果我们认为P给出的$g_v$是正确的，那么接下来就是要看P给出的$g_{v-1}$和真实的$h_{v-1}$是否一样，同样我们可以证明此时我们接受一个错误的多项式的概率不超过$\frac{d}{|F|}$</p>
+</li>
+<li><p>一直向上递归，直到确认我们第一轮接受的$g_1$是对的，那么最终计算的$H$就是对的，总的接受错误结果的概率不超过$\frac{d}{|F|}·v$,因为$|F|$是是无限大的，所以这个概率可以忽略</p>
+</li>
+</ul>
+</li>
+<li><p>Identity Function</p>
+<ul>
+<li>我们通常判断两个<strong>二值</strong>向量$a,b$相同的方式就是，遍历各个位置看是否相同即$a_i=b_i$</li>
+<li>更通用的表示方法<ul>
+<li>$\tilde{\beta}(x,y)=\prod_{i=1}^v((1-x_i)(1-y_i)+x_iy_i)$</li>
+<li>$x_i=y_i=1$，则前面一项为0，后面一项为1,$x_i=y_i=0$，则前面一项为1，后面一项为0，那么$x_i=y_i$时,$(1-x_i)(1-y_i)+x_iy_i=1$</li>
+<li>当每一对$(x_i,y_i)$都相等时，函数结果为1,反之为0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>多线性扩展</p>
+<ul>
+<li><p>当我们有一个输入为二值的函数$V(x_1,x_2,…x_v)$,那么它的多线性扩展$\tilde{V}(x_1,x_2,…,x_v)$可以表示为</p>
+<script type="math/tex; mode=display">
+\tilde{V}(x_1,...x_v)=\sum_{b\in\{0,1\}^v}\tilde{\beta}(x,b)V(b)</script></li>
+<li><p>这个形式可以用Sumcheck</p>
+</li>
+</ul>
+</li>
+<li><p>数组/向量的多线性扩展</p>
+<ul>
+<li>可以把数组或者向量看成一个函数$a(i)=a_i$，然后把$i$转换为其二进制表示形式，可以用$logN$个0/1来表示<script type="math/tex; mode=display">
+a(i_1,i_2,...i_{logN})=a_i</script>那么我们进一步可以将其多线性扩展为</li>
+</ul>
+</li>
+</ul>
+<p>​            </p>
+<script type="math/tex; mode=display">
+\tilde{a}(i_1,i_2,...,i_{logN})=\sum_{b\in\{0,1\}^{logN}}\tilde{\beta}(b,i)a(b)</script><p>​              $m\times n$的矩阵可以拉平成一个$mn\times1$的向量，然后表示为上述形式，即</p>
+<script type="math/tex; mode=display">
+A_{ij}=f_A(i_1,...,i_{logN},j_1,...,j_{logN})</script><ul>
+<li><p>例.矩阵乘法$A=BC$</p>
+<ul>
+<li>如果要直接验证$A=BC$，则需要先计算$BC$,这需要$O(n^3)$的复杂度</li>
+<li>可以通过$Ax=B(Cx)$的方式减少复杂度，但是通信过程依旧需要$O(n^2)$的高复杂度</li>
+<li>交互式证明方法：$f_A(i,j)=\sum_{k\in\{0,1\}^{logN}}f_B(i,k)f_C(k,j)$<ul>
+<li>可以证明</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+\tilde{f_A}(i,j)=\sum_{k\in\{0,1\}^{logN}}\tilde{f_B}(i,k)\tilde{f_C}(k,j)</script>
+    </div>
+     
+    <div class="post-footer__meta"><p>updated at 2024-04-19</p></div> 
+    <div class="post-entry__tags"><a href="/tags/%E9%9B%B6%E7%9F%A5%E8%AF%86%E8%AF%81%E6%98%8E/" class="post-tags__link button"># 零知识证明</a><a href="/tags/sumcheck/" class="post-tags__link button"># sumcheck</a><a href="/tags/%E4%BA%A4%E4%BA%92%E5%BC%8F%E8%AF%81%E6%98%8E/" class="post-tags__link button"># 交互式证明</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/2024/04/19/report/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            【实验报告】个人博客搭建总结报告
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2024/04/19/conv/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            【学习笔记】向量卷积、矩阵卷积与快速傅里叶变换
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2024 <a href="/">Hexo</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
+</html>
