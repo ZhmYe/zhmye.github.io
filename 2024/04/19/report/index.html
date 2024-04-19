@@ -49,7 +49,7 @@
 <meta property="og:image" content="http://example.com/2024/04/19/report/fig4.png">
 <meta property="og:image" content="http://example.com/2024/04/19/report/fig5.png">
 <meta property="article:published_time" content="2024-04-19T05:14:59.000Z">
-<meta property="article:modified_time" content="2024-04-19T05:17:46.816Z">
+<meta property="article:modified_time" content="2024-04-19T05:21:12.202Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="实验报告">
 <meta name="twitter:card" content="summary_large_image">
@@ -234,7 +234,19 @@
 <li><p>修改主题文件夹下的_config.yml文件以修改导航栏</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># 顶部导航栏设置</span><br><span class="line">navbar: </span><br><span class="line"></span><br><span class="line">  # 左侧名称显示</span><br><span class="line">  sitename: ZhmYe&#x27;s</span><br><span class="line">  </span><br><span class="line">  # 右侧站内导航链接</span><br><span class="line">  menu: </span><br><span class="line">    - name: 首页</span><br><span class="line">      url: /</span><br><span class="line">    - name: 文章</span><br><span class="line">      url: /archives/</span><br><span class="line">    - name: 分类</span><br><span class="line">      url: /categories/</span><br><span class="line">    - name: 标签</span><br><span class="line">      url: /tags/</span><br><span class="line">    - name: Github</span><br><span class="line">      url: https://github.com/ZhmYe</span><br><span class="line"></span><br><span class="line">  # 导航栏永远显示在屏幕顶端</span><br><span class="line">  # 仅当屏幕宽度不小于 1080 px 时生效</span><br><span class="line">  sticky: false</span><br><span class="line">  </span><br><span class="line"> # 这里还包括后续启用search功能</span><br><span class="line"> search:</span><br><span class="line">  enable: true</span><br><span class="line">  path: search.json</span><br><span class="line">  field: All  # Page | Post | All</span><br></pre></td></tr></table></figure>
 </li>
+<li><p>修改对应的github链接，使得代码会被部署到github.io中</p>
+<ul>
+<li>首先要创建相应的github.io仓库并完成ssh认证，这里略过</li>
+<li>修改项目根目录的config.yml</li>
 </ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: git@github.com:ZhmYe/zhmye.github.io.git</span><br><span class="line">  branch: main</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>通过运行hexo相关命令部署到仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g # 生成相关html等文件</span><br><span class="line">hexo d # 部署到github.io</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h2 id="四、问题与总结"><a href="#四、问题与总结" class="headerlink" title="四、问题与总结"></a>四、问题与总结</h2><p>​    实验过程整体比较顺利，参考相关的资料可以很快完成整个博客的搭建，主要遇到了如下两个问题</p>
